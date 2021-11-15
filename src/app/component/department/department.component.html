@@ -1,0 +1,95 @@
+<div class="row">
+
+  <div class="col">
+    <!-- Circle Buttons -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add New Department</h6>
+      </div>
+      <div class="card-body">
+
+          <div class="form-group"  [formGroup]="formDepart" >
+            <label for="">Name</label>
+            <input type="text" formControlName="name"
+              [ngClass]="{'is-invalid':formDepart.get('name')?.touched && formDepart.get('name')?.invalid}"
+              class="form-control"  aria-describedby="helpId" placeholder="">
+            <small id="helpId" class="text-danger form-text">
+
+            </small>
+
+          </div>
+        <button class="btn btn-outline-success" [disabled]="formDepart?.invalid"
+            (click)="insertDepartment()">Add</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">List Department</h6>
+      </div>
+      <div class="card-body">
+
+        <table class="table table-bordered text-center" cellspacing="0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of departs | paginate: {itemsPerPage:5, currentPage:page, totalItems: lengthPage}">
+              <td scope="row">{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td>
+                <button type="button" class="btn btn-primary" (click)="getID(item.id)" data-toggle="modal" data-target="#staticBackdrop">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <a (click)="deleteDepartment(item.id)">
+                  <i class="fa fa-trash-alt btn btn-outline-danger"></i>
+                </a>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <pagination-controls class="page-item" (pageChange)="page = $event"></pagination-controls>
+          </ul>
+        </nav>
+
+<!-- Button trigger modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Department:{{ this.getDepart.id }} </h5>
+              <button type="button" class="" data-dismiss="modal" aria-label="Close"><i
+                  class="fas fa-window-close    "></i></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group" [formGroup]="formEditDepart">
+                <label for="">Name</label>
+                <input type="text"
+                [ngClass]="{'is-invalid':formEditDepart.get('name')?.touched && formEditDepart.get('name')?.invalid}"
+                  class="form-control text-center" [value]="getDepart.name" formControlName="name" aria-describedby="helpId" placeholder="">
+                <small id="helpId" class="form-text text-muted">Help text</small>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="formEditDepart?.invalid" (click)="update()">Cập Nhật</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
