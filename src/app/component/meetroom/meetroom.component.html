@@ -1,0 +1,93 @@
+<h1 class="h3 mb-4 text-gray-800">Meet Room</h1>
+<div class="row">
+  <div class="col-lg-5">
+
+    <!-- Circle Buttons -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add New Meet Room</h6>
+      </div>
+      <div class="card-body">
+        <div class="row" [formGroup]="formMeetroom">
+          <div class="col">
+            <img [src]="image" alt="" height="230px" width="230px" id="imageMeet">
+            <input type="file" class="d-none"  id="imageFile" (change)="onFileSelect($event)">
+            <label for="imageFile" style="margin-top: 25px" class="btn btn-primary">Select</label>
+
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="">Name</label>
+              <input type="text" class="form-control" formControlName="name"  aria-describedby="helpId" placeholder="">
+              <small id="helpId" class="form-text text-danger">
+
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="">Address</label>
+              <input type="text" class="form-control"  formControlName="address" aria-describedby="helpId" placeholder="">
+              <small id="helpId" class="form-text text-danger">
+
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="">Seats</label>
+              <input type="number" class="form-control" formControlName="seats" aria-describedby="helpId" placeholder="">
+              <small id="helpId" class="form-text text-danger">
+
+              </small>
+            </div>
+            <button class="btn btn-outline-success" [disabled]="formMeetroom?.invalid" (click)="insert()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7">
+
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">List Meet Room</h6>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered text-center">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Seats</th>
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let item of meetrooms | paginate: {itemsPerPage:5, currentPage:page, totalItems: lengthPage}">
+              <td scope="row"><img [src]="item.image" width="90px" alt=""></td>
+              <td style="width:150px">{{ item.name }}</td>
+              <td style="width:200px">{{ item.address }}</td>
+              <td>{{ item.seats }}</td>
+
+              <td>
+                {{ item.id }}
+                <app-edit-meetroom [id]="getID(item.id)" (editFinish)="finish()"></app-edit-meetroom>
+                <button class="btn btn-outline-danger" (click)="delete(item.id)">
+                  <i class="fas fa-trash-alt "></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <pagination-controls class="page-item" (pageChange)="page = $event"></pagination-controls>
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal -->
