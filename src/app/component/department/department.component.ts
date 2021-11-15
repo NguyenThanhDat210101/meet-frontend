@@ -45,6 +45,8 @@ export class DepartmentComponent implements OnInit {
     this.departservice.insert(this.formDepart.value).subscribe(data=>{
       this.ngOnInit();
       this.toastr.success("Thêm Thành Công","Hệ Thống");
+    },error =>{
+      this.toastr.error("Lỗi Unique","Hệ Thống");
     })
   }
 
@@ -58,8 +60,6 @@ export class DepartmentComponent implements OnInit {
   getID(id:number){
     this.departservice.show(id).subscribe(data=>{
       this.getDepart = data as Department;
-      this.toastr.success(this.getDepart.name);
-      this.ngOnInit();
     });
   }
 
